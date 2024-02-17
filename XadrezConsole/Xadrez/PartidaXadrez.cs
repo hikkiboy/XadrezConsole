@@ -11,8 +11,8 @@ namespace XadrezConsole.Xadrez
     internal class PartidaXadrez
     {
         public Tabuleiros Tab { get; private set; }
-        private int Turno;
-        private Cor JogadorAtual;
+        public int Turno { get; private set; }
+        public Cor JogadorAtual { get; private set; }
         public bool Termida {  get; private set; }
 
         public PartidaXadrez()
@@ -30,6 +30,49 @@ namespace XadrezConsole.Xadrez
             p.incrementaMovimento();
             Peca capturada = Tab.retirarPeca (destino);
             Tab.colocarPeca(p, destino);
+        }
+
+        public void realizaJogada (Posicao origem , Posicao destino)
+        {
+            executaMovimento(origem, destino);
+            Turno++;
+            mudaJogador();
+        }
+
+        private void mudaJogador()
+        {
+            if(JogadorAtual == Cor.Branca)
+            {
+                JogadorAtual = Cor.Preta;
+            }
+            else
+            {
+                JogadorAtual = Cor.Branca;
+            }
+        }
+
+        public void validarOrigem(Posicao pos)
+        {
+            if(Tab.peca(pos) == null)
+            {
+                throw new TabuleiroException("Não tem peça para mover");
+            }
+            else if (JogadorAtual != Tab.peca(pos).Cor)
+            {
+                throw new TabuleiroException("Não pode mover uma peça que não é sua");
+            }
+            else if (!Tab.peca(pos).existemovepossivel())
+            {
+                throw new TabuleiroException("Não há movimentos possiveis para a peça selecionada");
+            }
+        }
+
+        public void validarDestino(Posicao origem, Posicao destino)
+        {
+            if (!Tab.peca(origem).podeMover(destino))
+            {
+                throw new TabuleiroException("Posição de destino invalida");
+            }
         }
 
         private void colocarpecas()

@@ -33,6 +33,26 @@ namespace XadrezConsole.Tabuleiro
 
         public abstract bool[,] movimentosPossives();
 
+        public bool existemovepossivel()
+        {
+            bool[,] mat = movimentosPossives();
+            for(int i = 0; i < tab.Linhas; i++) 
+            {
+                for(int j = 0 ; j < tab.Colunas; j++)
+                {
+                    if (mat[i, j] == true)
+                    {
+                        return true;
+                    }
+
+                }
+            }
+            return false;
+        }
+        public bool podeMover(Posicao pos)
+        {
+            return movimentosPossives()[pos.Linha, pos.Coluna];
+        }
 
 
     }
