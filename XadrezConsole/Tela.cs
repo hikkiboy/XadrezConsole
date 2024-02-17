@@ -68,6 +68,40 @@ namespace XadrezConsole
 
         }
 
+        public static void imprimirPartida(PartidaXadrez partida)
+        {
+            imprimirTabuleiro(partida.Tab);
+            Console.WriteLine();
+            imprimirPecasCapturadas(partida);
+            Console.WriteLine("Turno " + partida.Turno);
+            Console.WriteLine("Aguardando jogada da: " + partida.JogadorAtual);
+        }
+
+        public static void imprimirPecasCapturadas(PartidaXadrez partida)
+        {
+            Console.WriteLine("Peças capturadas: ");
+            Console.Write("Brancas: ");
+            imprimirConjunto(partida.pecasCapturadas(Cor.Branca));
+            Console.WriteLine();
+
+            Console.Write("Pretas: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            imprimirConjunto(partida.pecasCapturadas(Cor.Preta));
+            Console.ForegroundColor= ConsoleColor.White;
+            Console.WriteLine() ;
+            Console.WriteLine();
+        }
+
+        public static void imprimirConjunto(HashSet<Peca> conjunto)
+        {
+            Console.Write("[");
+            foreach (Peca p in conjunto)
+            {
+                Console.Write   (p + " ");
+            }
+            Console.Write(']');
+        }
+
         public static void ImprimirPeca(Peca peca)
         {
             if (peca == null)
